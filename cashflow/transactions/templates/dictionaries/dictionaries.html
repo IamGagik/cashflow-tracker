@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Управление справочниками{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Управление справочниками</h1>
+
+<!-- Список статусов -->
+<h2>Статусы</h2>
+<a href="{% url 'add_status' %}" class="btn btn-primary mb-3">Добавить статус</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for status in statuses %}
+        <tr>
+            <td>{{ status.name }}</td>
+            <td>
+                <a href="{% url 'edit_status' status.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url 'delete_status' status.id %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Список типов -->
+<h2>Типы</h2>
+<a href="{% url 'add_type' %}" class="btn btn-primary mb-3">Добавить тип</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type in types %}
+        <tr>
+            <td>{{ type.name }}</td>
+            <td>
+                <a href="{% url 'edit_type' type.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url 'delete_type' type.id %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Список категорий -->
+<h2>Категории</h2>
+<a href="{% url 'add_category' %}" class="btn btn-primary mb-3">Добавить категорию</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Тип</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories %}
+        <tr>
+            <td>{{ category.name }}</td>
+            <td>{{ category.type.name }}</td>
+            <td>
+                <a href="{% url 'edit_category' category.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url 'delete_category' category.id %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Список подкатегорий -->
+<h2>Подкатегории</h2>
+<a href="{% url 'add_subcategory' %}" class="btn btn-primary mb-3">Добавить подкатегорию</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subcategory in subcategories %}
+        <tr>
+            <td>{{ subcategory.name }}</td>
+            <td>{{ subcategory.category.name }}</td>
+            <td>
+                <a href="{% url 'edit_subcategory' subcategory.id %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url 'delete_subcategory' subcategory.id %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

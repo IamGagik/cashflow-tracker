@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Создать или редактировать запись{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Создать или редактировать запись</h1>
+
+<!-- Вывод ошибок формы -->
+{% if form.errors %}
+<div class="alert alert-danger">
+    <strong>Ошибки:</strong>
+    <ul>
+        {% for field, errors in form.errors.items %}
+        <li>{{ field.label }}: {{ errors|join:", " }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Поле выбора даты -->
+    <div class="mb-3">
+        <label for="date" class="form-label">Дата</label>
+        <input id="date" type="date" name="date" class="form-control" 
+               value="{{ form.date.value|default_if_none:'' }}">
+    </div>
+
+    <!-- Поле выбора статуса -->
+    <div class="mb-3">
+        <label for="status" class="form-label">Статус</label>
+        {{ form.status }}
+    </div>
+
+    <!-- Поле выбора типа -->
+    <div class="mb-3">
+        <label for="type" class="form-label">Тип</label>
+        <select id="type" name="type" class="form-select">
+            <option value="">Выберите тип</option>
+            {% for t in form.fields.type.queryset %}
+            <option value="{{ t.id }}" {% if form.instance.type and form.instance.type.id == t.id %}selected{% endif %}>
+                {{ t.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Поле выбора категории -->
+    <div class="mb-3">
+        <label for="category" class="form-label">Категория</label>
+        <select id="category" name="category" class="form-select">
+            <option value="">Выберите категорию</option>
+            {% for c in form.fields.category.queryset %}
+            <option value="{{ c.id }}" {% if form.instance.category and form.instance.category.id == c.id %}selected{% endif %}>
+                {{ c.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Поле выбора подкатегории -->
+    <div class="mb-3">
+        <label for="subcategory" class="form-label">Подкатегория</label>
+        <select id="subcategory" name="subcategory" class="form-select">
+            <option value="">Выберите подкатегорию</option>
+            {% for s in form.fields.subcategory.queryset %}
+            <option value="{{ s.id }}" {% if form.instance.subcategory and form.instance.subcategory.id == s.id %}selected{% endif %}>
+                {{ s.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Поле ввода суммы -->
+    <div class="mb-3">
+        <label for="amount" class="form-label">Сумма</label>
+        {{ form.amount }}
+    </div>
+
+    <!-- Поле ввода комментария -->
+    <div class="mb-3">
+        <label for="comment" class="form-label">Комментарий</label>
+        {{ form.comment }}
+    </div>
+
+    <!-- Кнопки -->
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">Отмена</a>
+</form>
+
+<!-- JavaScript для автоматического заполнения даты и динамической загрузки категорий -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let dateInput = document.getElementById("date");
+    let typeSelect = document.getElementById("type");
+    let categorySelect = document.getElementById("category");
+    let subcategorySelect = document.getElementById("subcategory");
+
+    // Устанавливаем текущую дату, если поле пустое
+    if (!dateInput.value) {
+        let today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+    }
+
+    // Функция обновления категорий при выборе типа
+    function updateCategories() {
+        let typeId = typeSelect.value;
+        categorySelect.innerHTML = '<option value="">Выберите категорию</option>';
+        subcategorySelect.innerHTML = '<option value="">Выберите подкатегорию</option>';
+
+        if (typeId) {
+            fetch(`/get_categories/?type_id=${typeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.categories.forEach(category => {
+                        let option = document.createElement("option");
+                        option.value = category.id;
+                        option.textContent = category.name;
+                        categorySelect.appendChild(option);
+                    });
+                });
+        }
+    }
+
+    // Функция обновления подкатегорий при выборе категории
+    function updateSubcategories() {
+        let categoryId = categorySelect.value;
+        subcategorySelect.innerHTML = '<option value="">Выберите подкатегорию</option>';
+
+        if (categoryId) {
+            fetch(`/get_subcategories/?category_id=${categoryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.subcategories.forEach(subcategory => {
+                        let option = document.createElement("option");
+                        option.value = subcategory.id;
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                });
+        }
+    }
+
+    // Добавляем обработчики событий
+    typeSelect.addEventListener("change", updateCategories);
+    categorySelect.addEventListener("change", updateSubcategories);
+});
+</script>
+
+{% endblock %}
