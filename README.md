@@ -1,49 +1,75 @@
-#  Django CashFlow Tracker
+# 💸 Django CashFlow Tracker
 
-**Django-приложение для управления движением денежных средств (ДДС).**
+**A Django-based web application for managing and tracking cash flow.**
 
-## 🚀 Функциональность
-- **Добавление/редактирование/удаление транзакций.**
-- **Фильтрация записей** по статусу, типу, категории, подкатегории и дате.
-- **Динамическое обновление категорий и подкатегорий** (без перезагрузки страницы).
-- **Управление справочниками** (статусы, типы, категории, подкатегории).
-- **Адаптивный интерфейс** (Bootstrap).
+---
 
-## 🛠️ Установка и запуск
-### 1️⃣ **Клонируем репозиторий**
-```sh
-git clone https://github.com/ВАШ_ЛОГИН/cashflow-tracker.git
+## 🚀 Features
+
+- **Create, edit, and delete transactions**
+- **Filter records** by status, type, category, subcategory, and date
+- **Dynamic category and subcategory updates** (without page reload)
+- **Manage directories**: statuses, types, categories, subcategories
+- **Responsive interface** (Bootstrap-powered)
+
+---
+
+## 🛠️ Installation & Setup
+
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/cashflow-tracker.git
 cd cashflow-tracker
+```
 
-### 2️⃣ **Создаем виртуальное окружение
-    python -m venv venv
-    source venv/bin/activate  # Для Linux/Mac
-    venv\Scripts\activate
+### 2️⃣ Create and activate a virtual environment
 
-### 3️⃣ **Устанавливаем зависимости
-    pip install -r requirements.txt
+```bash
+python -m venv venv
+source venv/bin/activate        # On Linux/macOS
+venv\Scripts\activate           # On Windows
+```
 
-### 4️⃣ **Настройка переменных окружения
-Создайте файл .env и добавьте:
-    DEBUG=True
-    SECRET_KEY=your_secret_key
-    ALLOWED_HOSTS=127.0.0.1,localhost   
+### 3️⃣ Install dependencies
 
-### 5️⃣ **Запускаем сервер
-python manage.py migrate  # Применяем миграции
-python manage.py createsuperuser  # Создаем администратора
-python manage.py runserver  # Запускаем сервер
+```bash
+pip install -r requirements.txt
+```
 
-Приложение будет доступно по адресу: http://127.0.0.1:8000.
+### 4️⃣ Set up environment variables
 
-## 🔧 Используемые технологии
-Django — Python-фреймворк для веб-разработки.
-Django REST Framework — для работы с API.
-Bootstrap — стилизация интерфейса.
-JavaScript (Vanilla) — для динамической подгрузки категорий и подкатегорий.
+Create a `.env` file in the project root with the following content:
 
+```env
+DEBUG=True
+SECRET_KEY=your_secret_key
+ALLOWED_HOSTS=127.0.0.1,localhost
+```
 
-## 📝 Автор
-👨‍💻 Гагик Абраамян
-📧 abraamyangagik10@gmail.com
-🐙 https://github.com/IamGagik
+### 5️⃣ Run the application
+
+```bash
+python manage.py migrate           # Apply migrations
+python manage.py createsuperuser   # Create admin user
+python manage.py runserver         # Start the development server
+```
+
+The app will be available at: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+## 🔧 Tech Stack
+
+- **Django** — Python web framework  
+- **Django REST Framework** — for building APIs  
+- **Bootstrap** — for responsive styling  
+- **Vanilla JavaScript** — for dynamic category/subcategory loading  
+
+---
+
+## 📝 Author
+
+👨‍💻 Gagik Abrahamyan  
+📧 abraamyangagik10@gmail.com  
+🐙 [github.com/IamGagik](https://github.com/IamGagik)
